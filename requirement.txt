@@ -1,0 +1,14 @@
+
+numpy
+pandas
+spacy
+nltk
+torch
+transformers
+streamlit
+language-tool-python
+Pillow
+tqdm
+streamlit-option-menu
+transformers
+accelerate
