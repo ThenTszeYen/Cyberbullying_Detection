@@ -7,7 +7,7 @@ nltk
 emot
 lime
 torch
-transformers
+transformers[torch] -U
 streamlit==1.16.0
 language-tool-python
 tqdm
