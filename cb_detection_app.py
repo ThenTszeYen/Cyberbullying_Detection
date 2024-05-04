@@ -297,7 +297,7 @@ def text_preprocessing_pipeline(df=df,
                 word_list.append(word)
         return word_list
 
-    term_badword_list = get_term_list("/Users/tszeyenthen/Python Study/jupyter notebbok/Cyberbullying/fyp/amica-cyberbullying-distribute/askfm-cyberbullying-data/badwords_list.txt")
+    term_badword_list = get_term_list("data_files/badwords_list.txt")
     
     def remove_accented_chars(x):
         x = unicodedata.normalize('NFKD', x).encode('ascii', 'ignore').decode('utf-8', 'ignore')
