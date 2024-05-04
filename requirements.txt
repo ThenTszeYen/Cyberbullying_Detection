@@ -8,9 +8,7 @@ emot
 lime
 torch
 transformers[torch] -U
-streamlit==1.16.0
+streamlit
 language-tool-python
 tqdm
 streamlit-option-menu
-transformers
-accelerate
