@@ -680,7 +680,8 @@ if input_text and button:
                 st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
 
             # Generate LIME explanation
-            exp = explainer.explain_instance(input_text, predict_for_lime, num_features=2)
+            explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
+            exp = explainer.explain_instance(input_text, predict_for_lime, num_features=6)
             st.markdown("### Explanation")
             html_data = exp.as_html()
             components.html(html_data, height=800)
