@@ -5,7 +5,7 @@ spacy
 https://huggingface.co/spacy/en_core_web_sm/resolve/main/en_core_web_sm-any-py3-none-any.whl
 nltk
 emot
-lime
+lime==0.2.0.1
 torch
 transformers[torch] -U
 streamlit
