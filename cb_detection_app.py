@@ -138,12 +138,12 @@ def text_preprocessing_pipeline(df=df,
     # Define the function to replace emoticons with descriptions
     def replace_emoticons_with_descriptions(text):
     # Load Emoji Dictionary
-        emoji_dict_path = '/Users/tszeyenthen/Python Study/jupyter notebbok/Cyberbullying/fyp/amica-cyberbullying-distribute/askfm-cyberbullying-data/Emoji_Dict.p'
+        emoji_dict_path = 'data_files/askfm-cyberbullying-data/Emoji_Dict.p'
         with open(emoji_dict_path, 'rb') as file:
             emoji_dict = pickle.load(file)
 
         # Load the emoticon dictionary from the JSON file
-        emoticon_dict_path = '/Users/tszeyenthen/Python Study/jupyter notebbok/Cyberbullying/fyp/amica-cyberbullying-distribute/askfm-cyberbullying-data/emoticon_dict.json'
+        emoticon_dict_path = 'data_files/emoticon_dict.json'
         with open(emoticon_dict_path, 'r') as file:
             emoticon_dict = json.load(file)
         
@@ -310,7 +310,7 @@ def text_preprocessing_pipeline(df=df,
         return x
 
     def _slang_resolution(x):
-        slang_path = '/Users/tszeyenthen/Python Study/jupyter notebbok/Cyberbullying/fyp/amica-cyberbullying-distribute/askfm-cyberbullying-data/SLANG_SOCIAL.pkl'
+        slang_path = 'data_files/amica-cyberbullying-distribute/askfm-cyberbullying-data/SLANG_SOCIAL.pkl'
         with open(slang_path, 'rb') as fp:
             slang_path = pickle.load(fp)
         clean_text = []
