@@ -132,7 +132,7 @@ def text_preprocessing_pipeline(df=df,
     # Define the function to replace emoticons with descriptions
     def replace_emoticons_with_descriptions(text):
     # Load Emoji Dictionary
-        emoji_dict_path = 'data_files/askfm-cyberbullying-data/Emoji_Dict.p'
+        emoji_dict_path = 'data_files/Emoji_Dict.p'
         with open(emoji_dict_path, 'rb') as file:
             emoji_dict = pickle.load(file)
 
