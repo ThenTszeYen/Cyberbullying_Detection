@@ -34,12 +34,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 from lime.lime_text import LimeTextExplainer
 
 # Configuration and Model Loading
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
-nlp = spacy.load('en_core_web_sm')
-tool = language_tool_python.LanguageTool('en-US')
-os.environ["TOKENIZERS_PARALLELISM"] = "true"
 pd.set_option('display.max_columns', None)
 
 # Load the English language model
