@@ -696,7 +696,7 @@ if input_text and button:
             st.markdown("### Explanation")
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
-            components.v1.html(html_data)
+            components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
 # Footer with additional information or links
 st.markdown("---")
