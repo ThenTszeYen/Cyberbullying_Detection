@@ -10,17 +10,23 @@ import pandas as pd
 import os
 from PIL import Image
 
-# Text Cleaning & Normalization
+# Preprocessing Pipeline
+import pandas as pd
 import re
-import pickle
-import spacy
+import unicodedata
+import string
 import nltk
 from nltk.stem import WordNetLemmatizer
 from tqdm import tqdm
 import language_tool_python
+import pickle  
 import json
+import re
 import unicodedata
-from collections import Counter
+import string
+import nltk
+import spacy
+import pickle
 from emot.emo_unicode import UNICODE_EMOJI, EMOTICONS_EMO
 
 import torch
@@ -35,25 +41,6 @@ nlp = spacy.load('en_core_web_sm')
 tool = language_tool_python.LanguageTool('en-US')
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 pd.set_option('display.max_columns', None)
-
-# Preprocessing Pipeline
-import pandas as pd
-import re
-import unicodedata
-import string
-import nltk
-from nltk.stem import WordNetLemmatizer
-from tqdm import tqdm
-import language_tool_python
-import pickle  # Importing pickle here
-import json
-import re
-import unicodedata
-import string
-import nltk
-import spacy
-import pickle
-from emot.emo_unicode import UNICODE_EMOJI, EMOTICONS_EMO
 
 # Load the English language model
 nlp = spacy.load('en_core_web_sm')
