@@ -695,6 +695,7 @@ if input_text and button:
             exp = explainer.explain_instance(input_text, predict_for_lime, num_features=6)
             st.markdown("### Explanation")
             html_data = exp.as_html()
+            st.subheader('Lime Explanation')
             components.v1.html(html_data)
 
 # Footer with additional information or links
