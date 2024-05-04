@@ -4,7 +4,7 @@ warnings.filterwarnings("ignore")
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit.components.v1 import components
-from streamlit.components.v1 import html
+# from streamlit.components.v1 import html
 # from streamlit import components
 
 # Data Manipulation
@@ -697,8 +697,8 @@ if input_text and button:
             exp = explainer.explain_instance(input_text, predict_for_lime, num_features=6)
             st.markdown("### Explanation")
             html_data = exp.as_html()
-            # components.html(html_data, height=800)
-            st.markdown(html_data, unsafe_allow_html=True)
+            components.html(html_data, height=800)
+            # st.markdown(html_data, unsafe_allow_html=True)
 
 
 # Footer with additional information or links
