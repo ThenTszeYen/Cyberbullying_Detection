@@ -627,7 +627,7 @@ def predict_for_lime(texts):
     return probabilities
 
 # Model Setup
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained('haisongzhang/roberta-tiny-cased')
     model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_model', num_labels=2)
