@@ -621,8 +621,9 @@ def predict_for_lime(texts):
     pred_trainer = Trainer(model)
     
     # Make prediction using the trainer
-    predictions = pred_trainer.predict(input_text_dataset)
-    raw_preds = predictions.predictions
+    # predictions = pred_trainer.predict(input_text_dataset)
+    raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+    # raw_preds = predictions.predictions
     
     # Apply softmax to convert logits to probabilities
     probabilities = torch.softmax(torch.tensor(raw_preds), dim=1).numpy()
