@@ -4,6 +4,7 @@ warnings.filterwarnings("ignore")
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit.components.v1 import components
+from streamlit.components.v1 import html
 # from streamlit import components
 
 # Data Manipulation
