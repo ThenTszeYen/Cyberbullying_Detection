@@ -304,7 +304,7 @@ def text_preprocessing_pipeline(df=df,
         return x
 
     def _slang_resolution(x):
-        slang_path = 'data_files/amica-cyberbullying-distribute/askfm-cyberbullying-data/SLANG_SOCIAL.pkl'
+        slang_path = 'data_files/SLANG_SOCIAL.pkl'
         with open(slang_path, 'rb') as fp:
             slang_path = pickle.load(fp)
         clean_text = []
