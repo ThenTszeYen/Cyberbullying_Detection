@@ -612,7 +612,6 @@ class Dataset(torch.utils.data.Dataset):
 # Define a prediction function for LIME
 def predict_for_lime(texts):
     inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
-    # outputs = model(**inputs)
     
     # Create torch dataset
     input_text_dataset = Dataset(inputs)
@@ -621,12 +620,10 @@ def predict_for_lime(texts):
     pred_trainer = Trainer(model)
     
     # Make prediction using the trainer
-    # predictions = pred_trainer.predict(input_text_dataset)
     raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
-    # raw_preds = predictions.predictions
     
     # Apply softmax to convert logits to probabilities
-    probabilities = torch.softmax(torch.tensor(raw_preds), dim=1).numpy()
+    probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
     return probabilities
 
 # Model Setup
