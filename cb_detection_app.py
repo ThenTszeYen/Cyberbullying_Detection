@@ -595,7 +595,7 @@ def text_preprocessing_pipeline(df=df,
 ########################
 # Create torch dataset #
 ########################
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+st.cache_resource.clear()
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels=None):
         self.encodings = encodings
@@ -611,6 +611,7 @@ class Dataset(torch.utils.data.Dataset):
         return len(self.encodings["input_ids"])
 
 # Define a prediction function for LIME
+st.cache_resource.clear()
 def predict_for_lime(texts):
     inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
     
@@ -639,7 +640,6 @@ st.title('Cyberbullying Detection Application')
 st.write("This application uses a Transformer model to detect potential cyberbullying in text inputs. Enter text below and press 'Analyze'.")
 
 # Text input from user
-# st.empty()
 with st.spinner("Setting up.."):
     tokenizer, model = load_model()
 
