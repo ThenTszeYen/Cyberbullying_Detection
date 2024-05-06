@@ -595,7 +595,7 @@ def text_preprocessing_pipeline(df=df,
 ########################
 # Create torch dataset #
 ########################
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels=None):
         self.encodings = encodings
