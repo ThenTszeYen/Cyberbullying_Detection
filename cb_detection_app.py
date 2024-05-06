@@ -630,7 +630,8 @@ def predict_for_lime(texts):
     return probabilities
 
 # Model Setup
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(allow_output_mutation=True, suppress_st_warning=True)
+@st.cache_resource
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained('haisongzhang/roberta-tiny-cased')
     model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_model', num_labels=2)
@@ -697,6 +698,9 @@ if input_text and button:
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
+
+st.cache_data.clear()
+st.cache_resource.clear()
 
 # Footer with additional information or links
 st.markdown("---")
