@@ -55,6 +55,7 @@ from PIL import Image
 ###############################
 # Text Preprocessing Pipeline #
 ###############################
+@st.cache(allow_output_mutation=True)
 example_text = "I'd not hate you"
 example_data = {
     "text" : [example_text]
@@ -627,19 +628,14 @@ def predict_for_lime(texts):
     return probabilities
 
 # Model Setup
-@st.cache_data
-@st.cache(allow_output_mutation=True)
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained('haisongzhang/roberta-tiny-cased')
     model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_model', num_labels=2)
     return tokenizer, model
 
-# # Load tokenizer and model only once using the caching mechanism
-# tokenizer, model = load_model()
-
 # Streamlit user interface components
 st.title('Cyberbullying Detection Application')
-st.write("This application uses a Transformer model to detect potential cyberbullying in text inputs. Enter text below and press 'Classify'.")
+st.write("This application uses a Transformer model to detect potential cyberbullying in text inputs. Enter text below and press 'Analyze'.")
 
 # Text input from user
 with st.spinner("Setting up.."):
