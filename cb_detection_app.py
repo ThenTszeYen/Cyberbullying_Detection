@@ -55,7 +55,7 @@ from PIL import Image
 ###############################
 # Text Preprocessing Pipeline #
 ###############################
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 example_text = "I'd not hate you"
 example_data = {
     "text" : [example_text]
