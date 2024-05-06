@@ -55,13 +55,13 @@ from PIL import Image
 ###############################
 # Text Preprocessing Pipeline #
 ###############################
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 example_text = "I'd not hate you"
 example_data = {
     "text" : [example_text]
 }
 df = pd.DataFrame(example_data)
 
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def text_preprocessing_pipeline(df=df,
                                 remove_urls=False,
                                 remove_characters=False,
