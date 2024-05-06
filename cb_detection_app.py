@@ -700,7 +700,7 @@ if input_text and button:
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
 st.cache_data.clear()
-st.cache.clear()
+st.empty()
 
 # Footer with additional information or links
 st.markdown("---")
