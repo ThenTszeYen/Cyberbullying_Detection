@@ -699,9 +699,6 @@ if input_text and button:
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
-st.cache_data.clear()
-st.empty()
-
 # Footer with additional information or links
 st.markdown("---")
 st.info("For more information or to report issues, visit our [GitHub repository](https://github.com/ThenTszeYen).")
