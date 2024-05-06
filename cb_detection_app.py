@@ -61,7 +61,6 @@ example_data = {
 }
 df = pd.DataFrame(example_data)
 
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def text_preprocessing_pipeline(df=df,
                                 remove_urls=False,
                                 remove_characters=False,
@@ -596,6 +595,7 @@ def text_preprocessing_pipeline(df=df,
 ########################
 # Create torch dataset #
 ########################
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels=None):
         self.encodings = encodings
