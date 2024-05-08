@@ -34,6 +34,11 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer
 from lime.lime_text import LimeTextExplainer
 import preprocess_text as pt
+import torch
+
+# Check if MPS (Apple Silicon GPU) is supported and use it; otherwise, use CPU
+# device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+# print(f"Using device: {device}")
 
 # Configuration and Model Loading
 pd.set_option('display.max_columns', None)
@@ -125,7 +130,7 @@ def get_term_list(path):
                 word_list.append(word)
         return word_list
 
-term_badword_list = get_term_list("data_files/badwords_list.txt")
+term_badword_list = get_term_list("/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/badwords_list.txt")
 
 ###############################
 # Text Preprocessing Pipeline #
@@ -255,25 +260,25 @@ class Dataset(torch.utils.data.Dataset):
 # @st.cache_resource
 def predict_for_lime(texts):
     inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
+    # inputs = {k: v.to(device) for k, v in inputs.items()}  # Move input tensors to the correct device
     
-    # # Create torch dataset
-    # input_text_dataset = Dataset(inputs)
+    # Create torch dataset
+    input_text_dataset = Dataset(inputs)
     
-    # # Define test trainer
-    # pred_trainer = Trainer(model)
+    # Define test trainer
+    pred_trainer = Trainer(model)
     
     # Make prediction using the trainer
-    # raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+    raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
     
     # Make prediction
     # Apply softmax to convert logits to probabilities
-    # probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
-    # return probabilities
-    with torch.no_grad():
-        output = model(**inputs)
-    # Convert logits to probabilities (softmax)
-    probabilities = torch.nn.functional.softmax(output.logits, dim=-1)
-    return probabilities.numpy()
+    probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
+    return probabilities
+    # with torch.no_grad():
+    #     output = model(**inputs)
+    # probabilities = torch.nn.functional.softmax(output.logits, dim=-1)
+    # return probabilities.cpu().numpy()
 
 # Model Setup
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
@@ -281,7 +286,9 @@ def predict_for_lime(texts):
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained('haisongzhang/roberta-tiny-cased')
     model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_model', num_labels=2)
+    # model.to(device)  # Move model to the appropriate device
     return tokenizer, model
+
 
 # Streamlit user interface components
 st.title('Cyberbullying Detection Application')
@@ -339,7 +346,7 @@ if input_text and button:
 
             # Generate LIME explanation
             explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
-            exp = explainer.explain_instance(input_text, predict_for_lime, num_features=6)
+            exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
             st.markdown("### Explanation")
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
