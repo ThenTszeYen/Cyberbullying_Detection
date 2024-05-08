@@ -81,7 +81,7 @@ def normalize_text_with_original_casing(text):
 # Define the function to replace emoticons with descriptions
 def replace_emoticons_with_descriptions(text):
     # Load Emoji Dictionary
-        emoji_dict_path = '/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/Emoji_Dict.p'
+        emoji_dict_path = 'data_files/Emoji_Dict.p'
         with open(emoji_dict_path, 'rb') as file:
             emoji_dict = pickle.load(file)
 
@@ -245,14 +245,14 @@ def get_term_list(path):
                 word_list.append(word)
         return word_list
 
-term_badword_list = get_term_list("/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/badwords_list.txt")
+term_badword_list = get_term_list("data_files/badwords_list.txt")
     
 def remove_accented_chars(x):
         x = unicodedata.normalize('NFKD', x).encode('ascii', 'ignore').decode('utf-8', 'ignore')
         return x
 
 def slang_resolution(x):
-        slang_path = '/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/SLANG_SOCIAL.pkl'
+        slang_path = 'data_files/SLANG_SOCIAL.pkl'
         with open(slang_path, 'rb') as fp:
             slang_path = pickle.load(fp)
         clean_text = []
