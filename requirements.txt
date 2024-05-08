@@ -9,7 +9,7 @@ lime==0.2.0.1
 torch
 transformers==4.40.1
 accelerate==0.29.3
-streamlit
+streamlit==1.28.0
 language-tool-python
 tqdm
 streamlit-option-menu
