@@ -86,7 +86,7 @@ def replace_emoticons_with_descriptions(text):
             emoji_dict = pickle.load(file)
 
         # Load the emoticon dictionary from the JSON file
-        emoticon_dict_path = '/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/emoticon_dict.json'
+        emoticon_dict_path = 'data_files/emoticon_dict.json'
         with open(emoticon_dict_path, 'r') as file:
             emoticon_dict = json.load(file)
         
