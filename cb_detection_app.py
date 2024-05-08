@@ -125,7 +125,7 @@ def get_term_list(path):
                 word_list.append(word)
         return word_list
 
-term_badword_list = get_term_list("/Users/tszeyenthen/testapp/askfm-cyberbullying-data/data_files/badwords_list.txt")
+term_badword_list = get_term_list("data_files/badwords_list.txt")
 
 ###############################
 # Text Preprocessing Pipeline #
