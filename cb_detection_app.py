@@ -258,27 +258,27 @@ class Dataset(torch.utils.data.Dataset):
 
 # Define a prediction function for LIME
 # @st.cache_resource
-# def predict_for_lime(texts):
-#     inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
-#     # inputs = {k: v.to(device) for k, v in inputs.items()}  # Move input tensors to the correct device
+def predict_for_lime(texts):
+    inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
+    # inputs = {k: v.to(device) for k, v in inputs.items()}  # Move input tensors to the correct device
     
-#     # Create torch dataset
-#     input_text_dataset = Dataset(inputs)
+    # Create torch dataset
+    input_text_dataset = Dataset(inputs)
     
-#     # Define test trainer
-#     pred_trainer = Trainer(model)
+    # Define test trainer
+    pred_trainer = Trainer(model)
     
-#     # Make prediction using the trainer
-#     raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+    # Make prediction using the trainer
+    raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
     
-#     # Make prediction
-#     # Apply softmax to convert logits to probabilities
-#     probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
-#     return probabilities
-#     # with torch.no_grad():
-#     #     output = model(**inputs)
-#     # probabilities = torch.nn.functional.softmax(output.logits, dim=-1)
-#     # return probabilities.cpu().numpy()
+    # Make prediction
+    # Apply softmax to convert logits to probabilities
+    probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
+    return probabilities
+    # with torch.no_grad():
+    #     output = model(**inputs)
+    # probabilities = torch.nn.functional.softmax(output.logits, dim=-1)
+    # return probabilities.cpu().numpy()
 
 # Model Setup
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
@@ -345,12 +345,12 @@ if input_text and button:
                 st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
 
             # Generate LIME explanation
-            # explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
-            # exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
-            # st.markdown("### Explanation")
-            # html_data = exp.as_html()
-            # st.subheader('Lime Explanation')
-            # components.v1.html(html_data, width=1100, height=350, scrolling=True)
+            explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
+            exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
+            st.markdown("### Explanation")
+            html_data = exp.as_html()
+            st.subheader('Lime Explanation')
+            components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
 # Footer with additional information or links
 st.markdown("---")
