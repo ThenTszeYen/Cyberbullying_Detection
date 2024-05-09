@@ -5,11 +5,12 @@ spacy
 https://huggingface.co/spacy/en_core_web_sm/resolve/main/en_core_web_sm-any-py3-none-any.whl
 nltk
 emot
-lime==0.2.0.1
+lime
 torch
-transformers==4.40.1
-accelerate==0.29.3
-streamlit==1.28.0
+transformers
+accelerate
+streamlit==1.16.0
 language-tool-python
 tqdm
 streamlit-option-menu
+fuzzywuzzy
