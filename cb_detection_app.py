@@ -36,24 +36,9 @@ from lime.lime_text import LimeTextExplainer
 import preprocess_text as pt
 import torch
 
-# Check if MPS (Apple Silicon GPU) is supported and use it; otherwise, use CPU
-# device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-# print(f"Using device: {device}")
-
 # Configuration and Model Loading
 pd.set_option('display.max_columns', None)
 
-# Load the English language model
-# nlp = spacy.load('en_core_web_sm')
-tool = language_tool_python.LanguageTool('en-US')
-
-# # Download necessary NLTK resources
-# nltk.download('punkt')
-# nltk.download('wordnet')
-# nltk.download('omw-1.4')
-
-# Load your DataFrame
-# df = pd.read_csv('your_dataset.csv')
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 from PIL import Image
@@ -241,7 +226,6 @@ def text_preprocessing_pipeline(df=df,
 ########################
 # Create torch dataset #
 ########################
-# @st.cache_resource
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels=None):
         self.encodings = encodings
@@ -257,7 +241,6 @@ class Dataset(torch.utils.data.Dataset):
         return len(self.encodings["input_ids"])
 
 # Define a prediction function for LIME
-# @st.cache_resource
 def predict_for_lime(texts):
     inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
     # inputs = {k: v.to(device) for k, v in inputs.items()}  # Move input tensors to the correct device
@@ -282,11 +265,9 @@ def predict_for_lime(texts):
 
 # Model Setup
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
-# @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained('haisongzhang/roberta-tiny-cased')
-    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_model', num_labels=2)
-    # model.to(device)  # Move model to the appropriate device
+    tokenizer = AutoTokenizer.from_pretrained('thentszeyen/finetuned_cb_detection')
+    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
     return tokenizer, model
 
 
