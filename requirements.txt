@@ -2,6 +2,7 @@ wget
 numpy
 pandas
 spacy
+pip
 git+https://github.com/ThenTszeYen/preprocess_text.git
 https://huggingface.co/spacy/en_core_web_sm/resolve/main/en_core_web_sm-any-py3-none-any.whl
 nltk
