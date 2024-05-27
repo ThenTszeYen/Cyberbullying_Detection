@@ -2,6 +2,7 @@ wget
 numpy
 pandas
 spacy
+git+https://github.com/ThenTszeYen/preprocess_text.git
 https://huggingface.co/spacy/en_core_web_sm/resolve/main/en_core_web_sm-any-py3-none-any.whl
 nltk
 emot
@@ -10,7 +11,7 @@ torch
 transformers
 accelerate
 streamlit==1.16.0
+streamlit-option-menu
 language-tool-python
 tqdm
-streamlit-option-menu
 fuzzywuzzy
