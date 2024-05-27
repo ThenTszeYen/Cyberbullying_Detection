@@ -41,8 +41,6 @@ pd.set_option('display.max_columns', None)
 
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
-from PIL import Image
-
 
 #  Bad word mapping function
 def create_profane_mapping(profane_words,vocabulary):
@@ -242,9 +240,9 @@ class Dataset(torch.utils.data.Dataset):
 
 # Define a prediction function for LIME
 def predict_for_lime(texts):
-    inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
-    # inputs = {k: v.to(device) for k, v in inputs.items()}  # Move input tensors to the correct device
-    
+    # inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
+    inputs = tokenizer(texts, padding=True, truncation=True, max_length=512)
+
     # Create torch dataset
     input_text_dataset = Dataset(inputs)
     
