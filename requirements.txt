@@ -16,3 +16,4 @@ streamlit-option-menu
 language-tool-python
 tqdm
 fuzzywuzzy
+Pillow
