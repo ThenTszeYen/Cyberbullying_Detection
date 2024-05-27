@@ -41,6 +41,7 @@ pd.set_option('display.max_columns', None)
 
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
+tool = language_tool_python.LanguageTool('en-US')
 
 #  Bad word mapping function
 def create_profane_mapping(profane_words,vocabulary):
