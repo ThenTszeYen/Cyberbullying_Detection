@@ -222,6 +222,13 @@ def text_preprocessing_pipeline(df=df,
 
     return df['clean_text'].tolist()
 
+# Model Setup
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+def load_model():
+    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
+    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
+    return tokenizer, model
+        
 ########################
 # Create torch dataset #
 ########################
@@ -257,17 +264,6 @@ def predict_for_lime(texts):
     # Apply softmax to convert logits to probabilities
     probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
     return probabilities
-    # with torch.no_grad():
-    #     output = model(**inputs)
-    # probabilities = torch.nn.functional.softmax(output.logits, dim=-1)
-    # return probabilities.cpu().numpy()
-
-# Model Setup
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
-def load_model():
-    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
-    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
-    return tokenizer, model
 
 
 # Streamlit user interface components
