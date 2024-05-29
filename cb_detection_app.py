@@ -276,13 +276,16 @@ with st.spinner("Setting up.."):
 
 st.markdown("---")
 input_text = st.text_area('Enter Text to Analyze')
-# button = st.button("Analyze")
+button = st.button("Analyze")
+
+# Initialize a placeholder for the result
+result_placeholder = st.empty()
 
 # Read data 
 # if input_text and button:
     # input_data = {"text" : [input_text]}
     # bully_data = pd.DataFrame(input_data)
-if st.button("Analyze"):
+if button:
     input_data = {"text" : [input_text]}
     bully_data = pd.DataFrame(input_data)
 
@@ -330,6 +333,10 @@ if st.button("Analyze"):
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
+
+# Clear Results button
+if st.button("Clear Results"):
+    result_placeholder.empty()
 
 # Footer with additional information or links
 st.markdown("---")
