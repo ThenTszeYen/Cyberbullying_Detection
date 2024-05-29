@@ -284,7 +284,7 @@ input_text = st.text_area('Enter Text to Analyze')
     # bully_data = pd.DataFrame(input_data)
 if st.button("Analyze"):
     input_data = {"text" : [input_text]}
-    bully_data = pd.DataFrame(input_text)
+    bully_data = pd.DataFrame(input_data)
 
     with st.spinner("Hold on.. Preprocessing the input text.."):
         cleaned_input_text = text_preprocessing_pipeline(df=bully_data,
