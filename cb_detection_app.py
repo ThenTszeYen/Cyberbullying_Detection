@@ -276,57 +276,108 @@ with st.spinner("Setting up.."):
 
 st.markdown("---")
 input_text = st.text_area('Enter Text to Analyze')
-button = st.button("Analyze")
+# button = st.button("Analyze")
 
 # Read data 
-if input_text and button:
-    input_data = {"text" : [input_text]}
-    bully_data = pd.DataFrame(input_data)
+# if input_text and button:
+    # input_data = {"text" : [input_text]}
+    # bully_data = pd.DataFrame(input_data)
+if st.button("Analyze"):
+        if input_text:
+                    bully_data = pd.DataFrame(input_text)
 
-    with st.spinner("Hold on.. Preprocessing the input text.."):
-        cleaned_input_text = text_preprocessing_pipeline(df=bully_data,
-                                    remove_urls=True,
-                                    remove_characters=True,
-                                    reduce_elongated=True,
-                                    reduce_accented=True,
-                                    abbreviation_correction=True,
-                                    normalize_emoticons=True,
-                                    lower_case=True,
-                                    normalize_badterm=True,
-                                    spelling_correction=True,
-                                    remove_numeric=True,
-                                    remove_punctuations=True,
-                                    lemmatization=True
-                                )
+                    with st.spinner("Hold on.. Preprocessing the input text.."):
+                        cleaned_input_text = text_preprocessing_pipeline(df=bully_data,
+                                                    remove_urls=True,
+                                                    remove_characters=True,
+                                                    reduce_elongated=True,
+                                                    reduce_accented=True,
+                                                    abbreviation_correction=True,
+                                                    normalize_emoticons=True,
+                                                    lower_case=True,
+                                                    normalize_badterm=True,
+                                                    spelling_correction=True,
+                                                    remove_numeric=True,
+                                                    remove_punctuations=True,
+                                                    lemmatization=True
+                                                )
+                        
+                    # Button to trigger model inference
+                    with st.spinner("Almost there.. Analyzing your input text.."):
+                            input_text_tokenized = tokenizer(cleaned_input_text, padding=True, truncation=True, max_length=512)
+                
+                            # Create torch dataset
+                            input_text_dataset = Dataset(input_text_tokenized)
+                
+                            # Define test trainer
+                            pred_trainer = Trainer(model)
+                
+                            # Make prediction
+                            raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+                
+                            # Preprocess raw predictions
+                            text_pred = np.where(np.argmax(raw_pred, axis=1)==1,"Cyberbullying Post","Non-cyberbullying Post")
+                
+                            if text_pred.tolist()[0] == "Non-cyberbullying Post":
+                                st.success("No worry! Our model says this is a Non-cyberbullying Post!", icon="✅")
+                            elif text_pred.tolist()[0] == "Cyberbullying Post":
+                                st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
+                
+                            # Generate LIME explanation
+                            explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
+                            exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
+                            st.markdown("### Explanation")
+                            html_data = exp.as_html()
+                            st.subheader('Lime Explanation')
+                            components.v1.html(html_data, width=1100, height=350, scrolling=True)
+        else:
+            st.warning("Please enter text for prediction.")
+    # bully_data = pd.DataFrame(input_text)
+
+    # with st.spinner("Hold on.. Preprocessing the input text.."):
+    #     cleaned_input_text = text_preprocessing_pipeline(df=bully_data,
+    #                                 remove_urls=True,
+    #                                 remove_characters=True,
+    #                                 reduce_elongated=True,
+    #                                 reduce_accented=True,
+    #                                 abbreviation_correction=True,
+    #                                 normalize_emoticons=True,
+    #                                 lower_case=True,
+    #                                 normalize_badterm=True,
+    #                                 spelling_correction=True,
+    #                                 remove_numeric=True,
+    #                                 remove_punctuations=True,
+    #                                 lemmatization=True
+    #                             )
         
-    # Button to trigger model inference
-    with st.spinner("Almost there.. Analyzing your input text.."):
-            input_text_tokenized = tokenizer(cleaned_input_text, padding=True, truncation=True, max_length=512)
+    # # Button to trigger model inference
+    # with st.spinner("Almost there.. Analyzing your input text.."):
+    #         input_text_tokenized = tokenizer(cleaned_input_text, padding=True, truncation=True, max_length=512)
 
-            # Create torch dataset
-            input_text_dataset = Dataset(input_text_tokenized)
+    #         # Create torch dataset
+    #         input_text_dataset = Dataset(input_text_tokenized)
 
-            # Define test trainer
-            pred_trainer = Trainer(model)
+    #         # Define test trainer
+    #         pred_trainer = Trainer(model)
 
-            # Make prediction
-            raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+    #         # Make prediction
+    #         raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
 
-            # Preprocess raw predictions
-            text_pred = np.where(np.argmax(raw_pred, axis=1)==1,"Cyberbullying Post","Non-cyberbullying Post")
+    #         # Preprocess raw predictions
+    #         text_pred = np.where(np.argmax(raw_pred, axis=1)==1,"Cyberbullying Post","Non-cyberbullying Post")
 
-            if text_pred.tolist()[0] == "Non-cyberbullying Post":
-                st.success("No worry! Our model says this is a Non-cyberbullying Post!", icon="✅")
-            elif text_pred.tolist()[0] == "Cyberbullying Post":
-                st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
+    #         if text_pred.tolist()[0] == "Non-cyberbullying Post":
+    #             st.success("No worry! Our model says this is a Non-cyberbullying Post!", icon="✅")
+    #         elif text_pred.tolist()[0] == "Cyberbullying Post":
+    #             st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
 
-            # Generate LIME explanation
-            explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
-            exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
-            st.markdown("### Explanation")
-            html_data = exp.as_html()
-            st.subheader('Lime Explanation')
-            components.v1.html(html_data, width=1100, height=350, scrolling=True)
+    #         # Generate LIME explanation
+    #         explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
+    #         exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
+    #         st.markdown("### Explanation")
+    #         html_data = exp.as_html()
+    #         st.subheader('Lime Explanation')
+    #         components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
 # Footer with additional information or links
 st.markdown("---")
