@@ -223,7 +223,7 @@ def text_preprocessing_pipeline(df=df,
     return df['clean_text'].tolist()
 
 # Model Setup
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
     model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
@@ -278,9 +278,6 @@ st.markdown("---")
 input_text = st.text_area('Enter Text to Analyze')
 button = st.button("Analyze")
 
-# Initialize a placeholder for the result
-result_placeholder = st.empty()
-
 # Read data 
 # if input_text and button:
     # input_data = {"text" : [input_text]}
@@ -333,10 +330,6 @@ if button:
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
-
-# Clear Results button
-if st.button("Clear Results"):
-    result_placeholder.empty()
 
 # Footer with additional information or links
 st.markdown("---")
