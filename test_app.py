@@ -4,7 +4,6 @@ warnings.filterwarnings("ignore")
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit import components
-from streamlit import legacy_caching
 
 # Data Manipulation
 import numpy as np
