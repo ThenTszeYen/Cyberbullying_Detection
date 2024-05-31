@@ -4,6 +4,7 @@ warnings.filterwarnings("ignore")
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit import components
+from streamlit import legacy_caching
 
 # Data Manipulation
 import numpy as np
@@ -337,7 +338,9 @@ if input_text and button:
 
 # Add this code at the end of your app
 if st.button("Reboot App"):
-    st.experimental_rerun()
+        # Clear all caches
+        st.legacy_caching.clear_cache()
+        st.experimental_rerun()
 
 # Footer with additional information or links
 st.markdown("---")
