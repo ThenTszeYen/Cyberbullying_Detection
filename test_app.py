@@ -337,9 +337,9 @@ if input_text and button:
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
 # Add this code at the end of your app
-if st.button("Reboot App"):
+if st.button("Clear"):
         # Clear all caches
-        st.legacy_caching.clear_cache()
+        load_model.clear_cache()
         st.experimental_rerun()
 
 # Footer with additional information or links
