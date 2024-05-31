@@ -335,6 +335,10 @@ if input_text and button:
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
 
+# Add this code at the end of your app
+if st.button("Reboot App"):
+    st.experimental_rerun()
+
 # Footer with additional information or links
 st.markdown("---")
 st.info("For more information or to report issues, visit our [GitHub repository](https://github.com/ThenTszeYen).")
