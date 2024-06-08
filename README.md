@@ -17,3 +17,4 @@ https://cyberbullyingdetection-c69vqjk8fdxr3hnhu7vapp4.streamlit.app/
 
 Due to resource limitation in streamlit cloud, can download the file and run through command in local:
 streamlit run cb_detection_app.py
+
