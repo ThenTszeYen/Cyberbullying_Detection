@@ -1,4 +1,4 @@
-### Cyberbullying Detection in Social Media
+# Cyberbullying Detection in Social Media
 ## Project Overview
 This repository contains the code for my final year project on using transformer models for detecting cyberbullying in social media.
 ## Project Structure
