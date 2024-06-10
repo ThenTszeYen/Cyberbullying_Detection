@@ -6,7 +6,7 @@ This repository contains the code for my final year project on using transformer
    1. Step1_data_preparation
    2. Step2_text_preprocessing
    3. Step3_finetune_transformers
-2. cb_detection_app.py
+2. test_app.py
 ## Environment
 All the finetuning process are done in Google Colab because of the GPU availability.
 ## Deployment
@@ -16,5 +16,5 @@ Can run the streamlit app as the link below, but a 'Reboot' need to click for ru
 https://cyberbullyingdetection-c69vqjk8fdxr3hnhu7vapp4.streamlit.app/
 
 Due to resource limitation in streamlit cloud, can download the file and run through command in local:
-streamlit run cb_detection_app.py
+streamlit run test_app.py
 
