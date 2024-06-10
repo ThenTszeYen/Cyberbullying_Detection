@@ -305,25 +305,6 @@ if button:
         
     # Button to trigger model inference
     with st.spinner("Almost there.. Analyzing your input text.."):
-            input_text_tokenized = tokenizer(cleaned_input_text, padding=True, truncation=True, max_length=512)
-
-            # Create torch dataset
-            input_text_dataset = Dataset(input_text_tokenized)
-
-            # Define test trainer
-            pred_trainer = Trainer(model)
-
-            # Make prediction
-            raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
-
-            # Preprocess raw predictions
-            text_pred = np.where(np.argmax(raw_pred, axis=1)==1,"Cyberbullying Post","Non-cyberbullying Post")
-
-            if text_pred.tolist()[0] == "Non-cyberbullying Post":
-                st.success("No worry! Our model says this is a Non-cyberbullying Post!", icon="✅")
-            elif text_pred.tolist()[0] == "Cyberbullying Post":
-                st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
-
             # Generate LIME explanation
             explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
             exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
