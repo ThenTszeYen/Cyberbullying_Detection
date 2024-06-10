@@ -10,7 +10,7 @@ This repository contains the code for my final year project on using transformer
 ## Environment
 All the finetuning process are done in Google Colab because of the GPU availability.
 ## Deployment
-The best model will be deployed using Streamlit. The deployment code can be found in cb_detection_app.py.
+The best model will be deployed using Streamlit. The deployment code can be found in 'test_app.py'.
 Can run the streamlit app as the link below, but a 'Reboot' need to click for running the app due to the resource limitation in streamlit cloud:
 
 https://cyberbullyingdetection-c69vqjk8fdxr3hnhu7vapp4.streamlit.app/
