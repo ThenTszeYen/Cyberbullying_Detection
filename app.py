@@ -2,14 +2,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import streamlit as st
-from streamlit_option_menu import option_menu
 from streamlit import components
 
 # Data Manipulation
 import numpy as np
 import pandas as pd
 import os
-from PIL import Image
 
 # Preprocessing Pipeline
 import pandas as pd
@@ -19,7 +17,6 @@ import string
 import nltk
 from nltk.stem import WordNetLemmatizer
 from tqdm import tqdm
-import language_tool_python
 import pickle  
 import json
 import re
@@ -29,20 +26,20 @@ import nltk
 import spacy
 import pickle
 from emot.emo_unicode import UNICODE_EMOJI, EMOTICONS_EMO
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
 
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer
 from lime.lime_text import LimeTextExplainer
 import preprocess_text as pt
 
+import language_tool_python
+
+os.environ["TOKENIZERS_PARALLELISM"] = "true"
+
+tool = language_tool_python.LanguageTool('en-US')
+
 # Configuration and Model Loading
 pd.set_option('display.max_columns', None)
-
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "true"
-tool = language_tool_python.LanguageTool('en-US')
 
 #  Bad word mapping function
 def create_profane_mapping(profane_words,vocabulary):
@@ -223,13 +220,6 @@ def text_preprocessing_pipeline(df=df,
 
     return df['clean_text'].tolist()
 
-# Model Setup
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
-def load_model():
-    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
-    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
-    return tokenizer, model
-        
 ########################
 # Create torch dataset #
 ########################
@@ -249,9 +239,8 @@ class Dataset(torch.utils.data.Dataset):
 
 # Define a prediction function for LIME
 def predict_for_lime(texts):
-    # inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
-    inputs = tokenizer(texts, padding=True, truncation=True, max_length=512)
-
+    inputs = tokenizer(texts, padding=True, truncation=True, max_length=512, return_tensors='pt')
+    
     # Create torch dataset
     input_text_dataset = Dataset(inputs)
     
@@ -266,6 +255,13 @@ def predict_for_lime(texts):
     probabilities = torch.softmax(torch.tensor(raw_pred), dim=1).numpy()
     return probabilities
 
+# Model Setup
+@st.cache(allow_output_mutation=True)
+def load_model():
+    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
+    model = AutoModelForSequenceClassification.from_pretrained('thentszeyen/finetuned_cb_detection', num_labels=2)
+    # model.to(device)  # Move model to the appropriate device
+    return tokenizer, model
 
 # Streamlit user interface components
 st.title('Cyberbullying Detection Application')
@@ -280,10 +276,7 @@ input_text = st.text_area('Enter Text to Analyze')
 button = st.button("Analyze")
 
 # Read data 
-# if input_text and button:
-    # input_data = {"text" : [input_text]}
-    # bully_data = pd.DataFrame(input_data)
-if button:
+if input_text and button:
     input_data = {"text" : [input_text]}
     bully_data = pd.DataFrame(input_data)
 
@@ -305,6 +298,25 @@ if button:
         
     # Button to trigger model inference
     with st.spinner("Almost there.. Analyzing your input text.."):
+            input_text_tokenized = tokenizer(cleaned_input_text, padding=True, truncation=True, max_length=512)
+
+            # Create torch dataset
+            input_text_dataset = Dataset(input_text_tokenized)
+
+            # Define test trainer
+            pred_trainer = Trainer(model)
+
+            # Make prediction
+            raw_pred, _, _ = pred_trainer.predict(input_text_dataset)
+
+            # Preprocess raw predictions
+            text_pred = np.where(np.argmax(raw_pred, axis=1)==1,"Cyberbullying Post","Non-cyberbullying Post")
+
+            if text_pred.tolist()[0] == "Non-cyberbullying Post":
+                st.success("No worry! Our model says this is a Non-cyberbullying Post!", icon="✅")
+            elif text_pred.tolist()[0] == "Cyberbullying Post":
+                st.warning("Warning!! Our model says this is a Cyberbullying Post!", icon="⚠️")
+
             # Generate LIME explanation
             explainer = LimeTextExplainer(class_names=["Non-Cyberbullying", "Cyberbullying"])
             exp = explainer.explain_instance(cleaned_input_text[0], predict_for_lime, num_features=6)
@@ -312,7 +324,7 @@ if button:
             html_data = exp.as_html()
             st.subheader('Lime Explanation')
             components.v1.html(html_data, width=1100, height=350, scrolling=True)
-
+        
 # Footer with additional information or links
 st.markdown("---")
 st.info("For more information or to report issues, visit our [GitHub repository](https://github.com/ThenTszeYen).")
